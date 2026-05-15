@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button'
 
-const PRODUCTS_API_URL = "https://69933cce8f29113acd406d64.mockapi.io/products"
 const CART_STORAGE_KEY = "cart"
 
 function EditProducts() {
@@ -18,7 +17,7 @@ function EditProducts() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(PRODUCTS_API_URL)
+    fetch(import.meta.env.VITE_BACK_URL+ "/products")
       .then((res) => res.json())
       .then((json) => setProducts(json))
   }, [])
@@ -32,7 +31,7 @@ function EditProducts() {
     const syncedCart = cart.filter((cartProduct) => String(cartProduct.id) !== String(id))
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(syncedCart))
 
-    fetch(PRODUCTS_API_URL + "/" + id, {
+    fetch(import.meta.env.VITE_BACK_URL+ "/products" + "/" + id, {
       method: "DELETE",
     })
   }

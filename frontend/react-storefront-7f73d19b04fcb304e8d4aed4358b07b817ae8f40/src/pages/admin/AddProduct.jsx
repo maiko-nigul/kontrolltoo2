@@ -14,9 +14,6 @@ import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 import { Check } from "lucide-react"
 
-const PRODUCTS_API_URL = "https://69933cce8f29113acd406d64.mockapi.io/products"
-const CATEGORIES_API_URL = "https://69933cce8f29113acd406d64.mockapi.io/categories"
-
 const INITIAL_PRODUCT = {
   title: "",
   price: "",
@@ -30,7 +27,7 @@ function AddProduct() {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    fetch(CATEGORIES_API_URL)
+    fetch(import.meta.env.VITE_BACK_URL+ "/categories")
       .then((response) => response.json())
       .then((json) => setCategories(json))
   }, [])
@@ -51,7 +48,7 @@ function AddProduct() {
       image: product.image,
     }
 
-    await fetch(PRODUCTS_API_URL, {
+    await fetch(import.meta.env.VITE_BACK_URL+ "/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

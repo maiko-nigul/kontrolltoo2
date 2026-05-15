@@ -16,7 +16,7 @@ function EditCategories() {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    fetch("https://69933cce8f29113acd406d64.mockapi.io/categories")
+    fetch(import.meta.env.VITE_BACK_URL+ "/categories")
       .then(res => res.json())
       .then(json => setCategories(json))
   }, [])
@@ -24,7 +24,7 @@ function EditCategories() {
   const deleteCategory = (id, index) => {
     categories.splice(index, 1)
     setCategories(categories.slice())
-    fetch("https://69933cce8f29113acd406d64.mockapi.io/categories/" + id, {
+    fetch(import.meta.env.VITE_BACK_URL+ "/categories" + id, {
       method: "DELETE"
     })
   }

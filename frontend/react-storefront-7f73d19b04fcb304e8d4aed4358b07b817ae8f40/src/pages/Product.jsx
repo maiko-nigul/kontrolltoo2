@@ -11,15 +11,13 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
-const PRODUCTS_API_URL = "https://69933cce8f29113acd406d64.mockapi.io/products"
-
 function Product() {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    fetch(`${PRODUCTS_API_URL}/${id}`)
+    fetch(`${import.meta.env.VITE_BACK_URL+ "/products"}/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data))
       .finally(() => setIsLoaded(true))

@@ -1,9 +1,28 @@
-import React from 'react'
+import { useEffect, useState } from "react"
 
 function Shops() {
+        const [books, setBooks] = useState([]);
+
+        useEffect(() => {
+        async function fetchBibles() {
+            try {
+                const data = await fetch("http://localhost:8080/api/bibles");
+                const fetchData = await data.json();
+                setBooks(fetchData.slice());
+            } catch (e) {
+                console.error("Unable to fetch", e);
+            }
+            }
+            fetchBibles();
+    }, []);
   return (
-    <div className="flex flex-col gap-6 pt-4">
-      <h1 className="text-xl font-semibold">Our shops</h1>
+        <div>
+        {books.map(book => 
+            <div>
+                <div>{book.type}</div>
+                <div>{book.description}</div>
+                <br />
+            </div>)}
     </div>
   )
 }

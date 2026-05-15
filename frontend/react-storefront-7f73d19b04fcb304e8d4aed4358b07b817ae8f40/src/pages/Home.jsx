@@ -6,28 +6,31 @@ import { ArrowDown, ArrowUp, Check, ShoppingBag } from "lucide-react"
 import { Link } from 'react-router-dom'
 
 function Home() {
-  const [allProducts, setAllProducts] = useState([]);
+  const [, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [, setSelectedCategory] = useState("all")
   const [sort, setSort] = useState("id,asc")
   const [size, setSize] = useState(2)
-  const CATEGORIES_API_URL = "https://69933cce8f29113acd406d64.mockapi.io/categories"
+
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-      fetch(CATEGORIES_API_URL)
+      fetch(import.meta.env.VITE_BACK_URL + "/categories")
         .then((response) => response.json())
         .then((json) => setCategories(json))
     }, [])
 
   useEffect(() => {
-     fetch("https://69933cce8f29113acd406d64.mockapi.io/products")
+     fetch(import.meta.env.VITE_BACK_URL + `/products?page=${page}&size=${size}&sort=${sort}`)
       .then(res => res.json())
       .then(json => {
-        setAllProducts(json)
-        setProducts(json)
+        setAllProducts(json.content)
+        setProducts(json.content)
+        setTotalPages(json.totalPages);
       })
-  }, [selectedCategory, sort, size]);
+  }, [page,size , sort]);
 
   const sortAZ = () => {
     setSort("name,asc")
@@ -114,6 +117,18 @@ function Home() {
       )}
       {/* <div className="mt-2">Total: {calculateTotal()} €</div> */}
       <Toaster position="top-center" />
+            <button disabled={page === 0} onClick={() => setPage(page - 1)}>
+            Eelmine
+          </button>
+          <span>
+            {page + 1} / {totalPages}
+          </span>
+          <button
+            disabled={page + 1 === totalPages}
+            onClick={() => setPage(page + 1)}
+          >
+            Järgmine
+          </button>
     </div>
   )
 }
